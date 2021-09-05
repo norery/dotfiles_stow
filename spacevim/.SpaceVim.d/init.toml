@@ -1,0 +1,87 @@
+#=============================================================================
+# dark_powered.toml --- dark powered configuration example for SpaceVim
+# Copyright (c) 2016-2020 Wang Shidong & Contributors
+# Author: Wang Shidong < wsdjeg at 163.com >
+# URL: https://spacevim.org
+# License: GPLv3
+#=============================================================================
+
+# All SpaceVim option below [option] section
+[options]
+    # set spacevim theme. by default colorscheme layer is not loaded,
+    # if you want to use more colorscheme, please load the colorscheme
+    # layer
+    colorscheme = "gruvbox"
+    colorscheme_bg = "dark"
+    # Disable guicolors in basic mode, many terminal do not support 24bit
+    # true colors
+    enable_guicolors = true
+    # Disable statusline separator, if you want to use other value, please
+    # install nerd fonts
+    statusline_separator = "arrow"
+    statusline_iseparator = "arrow"
+    buffer_index_type = 4
+    enable_tabline_filetype_icon = true
+    enable_statusline_mode = false
+    # 设置顶部标签列表序号类型，有以下五种类型，分别是 0 - 4
+    # 0: 1 ➛ ➊ 
+    # 1: 1 ➛ ➀
+    # 2: 1 ➛ ⓵
+    # 3: 1 ➛ ¹
+    # 4: 1 ➛ 
+    buffer_index_type = 0
+    statusline_separator = 'fire'
+    escape_key_binding = 'jj'
+    filetree_direction = "left"
+    vim_help_language = "cn"
+
+    # My own options
+    filemanager = "defx"
+    autocomplete_method = "coc"
+    bootstrap_before = "myspacevim#before"
+    bootstrap_after = "myspacevim#after"
+
+# Enable autocomplete layer
+# [[layers]]
+# name = 'autocomplete'
+# auto_completion_return_key_behavior = "complete"
+# auto_completion_tab_key_behavior = "smart"
+
+[[layers]]
+name = 'shell'
+default_position = 'top'
+default_height = 30
+
+# ------------------- layers -------------------
+[[layers]]
+  name = "checkers"
+  enable = false
+
+[[layers]]
+  name = "format"
+  enable = false
+
+[[layers]]
+  name = "leaderf"
+
+[[layers]]
+  name = "tools#dash"
+
+[[layers]]
+  name = "lang#latex"
+
+# 中文用户，可以在配置文件里面添加以下配置来启用该模块，以获取中文帮助文档：
+# 加载该模块后，默认的帮助文件语言并未被设置为中文，还需要将 SpaceVim 选项 vim_help_language 的值设为 "cn"。
+[[layers]]
+name = "chinese"
+
+# need golang
+# [[custom_plugins]]
+  # name = 'rrethy/vim-hexokinase'
+  # build = 'make hexokinase'
+
+## Markdown 
+[[custom_plugins]]
+    repo = "instant-markdown/vim-instant-markdown"
+    on_ft = "markdown"
+
