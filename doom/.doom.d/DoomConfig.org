@@ -4,7 +4,6 @@
 #+property: header-args :mkdirp yes :comments no
 #+startup: fold
 :END:
-
 #+title: Doom Emacs configuration
 #+author: Tintingo
 #+email: norery@163.com
@@ -426,7 +425,7 @@ My user information. Some functionality uses this to identify you, e.g. GPG conf
 #+end_src
 
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "monospace" :size 13))
+(setq doom-font (font-spec :family "Source Code Pro" :size 14))
 
 #+end_src
 
@@ -643,8 +642,12 @@ We can use -Spc m O- to open the org-ol-tree.
 
 #+begin_src emacs-lisp
 (use-package rime
-  :custom
-  (default-input-method "rime"))
+        :custom
+        (default-input-method "rime")
+        (rime-librime-root "~/.doom.d/librime/dist")
+        (setq rime-show-candidate 'posframe)
+        (setq rime-user-data-dir "~/Library/Rime/")
+        )
 #+end_src
 
 ** pangu-spacing

@@ -60,7 +60,7 @@
 (setq user-full-name "Tintingo"
       user-mail-address "norery@163.com")
 
-(setq doom-font (font-spec :family "monospace" :size 13))
+(setq doom-font (font-spec :family "Source Code Pro" :size 14))
 
 (setq doom-theme 'doom-one)
 
@@ -127,6 +127,7 @@
 (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
 ;; use =command k=  to move five lines up
+;; TODO: only work in normal mode?
 (global-set-key (kbd "s-k")
     (lambda () (interactive) (evil-previous-line 5)))
 
@@ -180,8 +181,12 @@
       :desc "open org-ol-tree" "O" #'org-ol-tree)
 
 (use-package rime
-  :custom
-  (default-input-method "rime"))
+        :custom
+        (default-input-method "rime")
+        (rime-librime-root "~/.doom.d/librime/dist")
+        (setq rime-show-candidate 'posframe)
+        (setq rime-user-data-dir "~/Library/Rime/")
+        )
 
 (require 'pangu-spacing)
 (global-pangu-spacing-mode 1)
