@@ -2,7 +2,7 @@ __build_info:
   rime_version: 1.7.3
   timestamps:
     squirrel: 1613228858
-    squirrel.custom: 1630822964
+    squirrel.custom: 1630823000
 app_options:
   com.apple.Terminal:
     ascii_mode: true

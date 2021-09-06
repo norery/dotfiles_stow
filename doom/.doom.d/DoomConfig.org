@@ -36,7 +36,6 @@ This is my Doom Emacs configuration. From this org file, all the necessary Doom 
 - [[#chinese-support][Chinese support]]
   - [[#pangu-spacing][pangu-spacing]]
 - [[#load-path][load-path]]
-- [[#ttt][ttt]]
 
 * References
 
@@ -686,13 +685,7 @@ We can use -Spc m O- to open the org-ol-tree.
     )
 #+end_src
 
-
-
-
 #+begin_src emacs-lisp
 ;; 所有配置自带的模块
 (require 'init-config)
 #+end_src
-
-
-* TODO ttt

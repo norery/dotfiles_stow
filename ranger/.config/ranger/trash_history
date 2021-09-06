@@ -1,0 +1,4 @@
+trashed '.LfCache' '.local' from_dir /Users/vde
+trashed '.wns' from_dir /Users/vde
+trashed '.undodir' from_dir /Users/vde
+untrashed /Users/vde/.undodir
