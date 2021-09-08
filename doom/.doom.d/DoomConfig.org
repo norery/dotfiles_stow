@@ -550,6 +550,7 @@ Install an evil tutorial package and use =M-x= and =evil-tutor-start= to open it
 
  Now, The describability of =SPC bk= is not update in Which-Key, How to update it?
 
+
 * Org mode
 #+begin_src emacs-lisp
 (setq org-directory "~/Documents/OrgType/")

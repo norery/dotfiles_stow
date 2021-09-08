@@ -2,3 +2,5 @@ trashed '.LfCache' '.local' from_dir /Users/vde
 trashed '.wns' from_dir /Users/vde
 trashed '.undodir' from_dir /Users/vde
 untrashed /Users/vde/.undodir
+trashed 'bm.el' from_dir /Users/vde/dotfiles/doom/.doom.d
+trashed 'iCloud~com~liguangming~Shadowrocket' from_dir /Users/vde/Library/Mobile Documents
