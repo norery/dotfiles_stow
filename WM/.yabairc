@@ -15,8 +15,8 @@ sudo yabai --load-sa
 yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 
 # global settings
-yabai -m config mouse_follows_focus          off
-yabai -m config focus_follows_mouse          off
+yabai -m config mouse_follows_focus          true
+yabai -m config focus_follows_mouse          true
 yabai -m config window_placement             second_child
 yabai -m config window_topmost               off
 yabai -m config window_shadow                on
@@ -32,7 +32,7 @@ yabai -m config mouse_drop_action            swap
 
 # general space settings
 yabai -m config layout                       bsp
-yabai -m config top_padding                  12
+yabai -m config top_padding                  35
 yabai -m config bottom_padding               12
 yabai -m config left_padding                 12
 yabai -m config right_padding                12
@@ -47,35 +47,71 @@ yabai -m config window_border_width          6
 yabai -m config active_window_border_color   0xfac23541
 yabai -m config normal_window_border_color   0x7f6123A#noborder
 yabai -m config insert_window_border_color   0xffCF515C
+
 # ====== List of rules =========================
-##### window 1
-# 1.Emacs, can not tiling
 
-##### window 1
+# 可以从左上角苹果符号 () 旁边的 macOS 菜单栏中检查应用程序名称。
+# workd after open a new software or restart yabai
+##### window 1 -- main
+# 1. Emacs, can not tiling
+yabai -m space 1 --label main
+
+##### window 2 -- Shell
 # use ranger to manage file
-yabai -m rule --add label=iTerm2 app="^iTerm$" space=2
+yabai -m space 2 --label shell 
+yabai -m rule --add label=iterm app="^iTerm2$" space=shell
 
-#yabai -m rule --add label=chrome app="^Google Chrome$" space=2
+##### window 3
+# 1. chrome -- browser
+yabai -m space 3 --label surf
+yabai -m rule --add label=chrome app="^Google Chrome$" space=surf
+# 2. Safari 
+yabai -m rule --add label=safari app="^Safari浏览器$" space=surf
 
-# yabai -m rule --add label=wechat app="^ 微信 $" space=4
-# yabai -m rule --add label=qq app="^ 微信" space=4
+##### window 4 -- communication
+yabai -m space 4 --label chat
+yabai -m rule --add label=wechat app="微信" space=chat
+yabai -m rule --add label=qq app="QQ" space=chat
+yabai -m rule --add label=finder app="访达" space=chat
 
+##### window 5 -- paper
+yabai -m space 5 --label paper
+yabai -m rule --add label=word app="Microsoft Word" space=paper
+yabai -m rule --add label=pdf app="PDF Expert" space=paper
 
-yabai -m rule --add label=safari app="^Safari$" space=2
+##### window 6 -- data
+yabai -m space 6 --label data
+yabai -m rule --add label=notion app="Notion" space=data
+yabai -m rule --add label=mweb app="MWeb" space=data
 
-# yabai -m rule --add label=androidstudio app="^Android Studio$" space=3
+##### window 7 -- Cal
+yabai -m space 7 --label Cal
+yabai -m rule --add label=matlab app="MATLAB" space=Cal
 
-yabai -m rule --add label=musicapp app="^Music$" space=9
-yabai -m rule --add label=musicapp app="网易云音乐" space=9
+##### window 8 -- Mess
+yabai -m space 8 --label mess
+yabai -m rule --add label=oulu app="欧陆字典" space=mess
 
-# yabai -m rule --add label=iina app="^IINA$" space=5
+##### window 9 Entertainment
+yabai -m space 9 --label music
+yabai -m rule --add label=musicapp app="^音乐$" space=music
+yabai -m rule --add label=iina app="^IINA$" space=music
+yabai -m rule --add label=neteaseMusic app="^网易云音乐" space=music
 
 # floating windows are always on top (default: off)
 yabai -m config window_topmost on
+
 # window opacity (default: off)
 # example: render all unfocused windows with 90% opacity
 yabai -m config window_opacity on
 yabai -m config active_window_opacity 0.95
 yabai -m config normal_window_opacity 0.9
+
+# folating windows by default
+yabai -m rule --add app= " ^System Preferences$ " manage=off
+# yabai -m rule --add app="微信" sticky=on layer=above manage=off
+# yabai -m rule --add app="微信" sticky=on manage=off
+
+yabai -m rule --add app= " ^Digital Colou?r Meter$ " sticky=on
 
 echo "yabai configuration loaded.."
