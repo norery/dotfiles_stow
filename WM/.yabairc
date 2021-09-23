@@ -70,27 +70,27 @@ yabai -m rule --add label=safari app="^Safari浏览器$" space=surf
 
 ##### window 4 -- communication
 yabai -m space 4 --label chat
-yabai -m rule --add label=wechat app="微信" space=chat
-yabai -m rule --add label=qq app="QQ" space=chat
-yabai -m rule --add label=finder app="访达" space=chat
+yabai -m rule --add label=wechat app="^微信" space=chat
+yabai -m rule --add label=qq app="^QQ" space=chat
+yabai -m rule --add label=finder app="^访达" space=chat
 
 ##### window 5 -- paper
 yabai -m space 5 --label paper
-yabai -m rule --add label=word app="Microsoft Word" space=paper
-yabai -m rule --add label=pdf app="PDF Expert" space=paper
+yabai -m rule --add label=word app="^Microsoft Word" space=paper
+yabai -m rule --add label=pdf app="^PDF Expert" space=paper
 
 ##### window 6 -- data
 yabai -m space 6 --label data
-yabai -m rule --add label=notion app="Notion" space=data
-yabai -m rule --add label=mweb app="MWeb" space=data
+yabai -m rule --add label=notion app="^Notion" space=data
+yabai -m rule --add label=mweb app="^MWeb" space=data
 
 ##### window 7 -- Cal
 yabai -m space 7 --label Cal
-yabai -m rule --add label=matlab app="MATLAB" space=Cal
+yabai -m rule --add label=matlab app="^MATLAB" space=Cal
 
 ##### window 8 -- Mess
 yabai -m space 8 --label mess
-yabai -m rule --add label=oulu app="欧陆字典" space=mess
+yabai -m rule --add label=oulu app="^欧陆字典" space=mess
 
 ##### window 9 Entertainment
 yabai -m space 9 --label music

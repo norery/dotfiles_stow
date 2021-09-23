@@ -34,6 +34,8 @@ This is my Doom Emacs configuration. From this org file, all the necessary Doom 
     - [[#org-appear][org-appear]]
     - [[#org-ol-tree][org-ol-tree]]
 - [[#chinese-support][Chinese support]]
+  - [[#简介][简介]]
+  - [[#安装和使用][安装和使用]]
   - [[#pangu-spacing][pangu-spacing]]
 - [[#load-path][load-path]]
 
@@ -428,6 +430,13 @@ My user information. Some functionality uses this to identify you, e.g. GPG conf
 
 #+end_src
 
+make "starting "look" progress" disappear
+#+begin_src emacs-lisp
+(advice-add 'ispell-lookup-words :around
+            (lambda (orig &rest args)
+              (shut-up (apply orig args))))
+#+end_src
+
 ** Visual, session and window settings
 
 *** Basic UI settings
@@ -437,7 +446,7 @@ My user information. Some functionality uses this to identify you, e.g. GPG conf
 
 (setq display-line-numbers-type 'relative)
 
-(setq initial-frame-alist (quote ((fullscreen . maximized))))   ;; 默认全屏
+;; (setq initial-frame-alist (quote ((fullscreen . maximized))))   ;; 默认全屏
 
 ;; 修改当前行的高亮背景色。 M-x 运行describe-char -> Face: h1-line -> Background: #0D343E 可以看到这个值。通过(customize this face) 修改，被保存在 ~/.emacs.d/.local/custom.el 文件
 '(hl-line ((t (:background "#0D343E" ))))
@@ -642,11 +651,42 @@ We can use -Spc m O- to open the org-ol-tree.
 
 #+begin_src emacs-lisp
 (use-package rime
+        :init
         :custom
         (default-input-method "rime")
-        (rime-librime-root "~/.doom.d/librime/dist")
-        (setq rime-show-candidate 'posframe)
+        (rime-librime-root "~/.doom.d/librime/di* pyim-basedict README                         :README:doc:
+
+** 简介
+pyim-basedict 是 pyim 输入法的默认词库，词库数据来源为 libpinyin 项目。
+
+ https://github.com/libpinyin/libpinyin/releases (Data files we need is in release tarball)
+
+注意：这个词库的词条量大概在 10 万左右，是一个 *比较小* 的词库，只能确保 pyim
+可以正常工作，如果用户想让 pyim 更加顺手，需要添加其它附加词库，具体添加词库的
+方式可以参考 pyim 的 README.
+
+** 安装和使用
+1. 配置 melpa 源，参考：http://melpa.org/#/getting-started
+2. M-x package-install RET pyim-basedict RET
+3. 在 Emacs 配置文件中（比如: ~/.emacs）添加如下代码：
+   #+BEGIN_EXAMPLE
+   (pyim-basedict-enable)
+   #+END_EXAMPLE
+st")
         (setq rime-user-data-dir "~/Library/Rime/")
+        ;;; 具体参考 mode-line-mule-info 默认值，其中可能有其它有用信息
+        (setq mode-line-mule-info '((:eval (rime-lighter))))
+        (setq rime-show-candidate 'posframe)
+        (rime-posframe-properties
+                (list :background-color "#073642"
+                 :foreground-color "#839496"
+                 :internal-border-width 1))
+        (setq rime-cursor "˰")
+        (setq rime-disable-predicates
+              '(rime-predicate-evil-mode-p
+                rime-predicate-after-alphabet-char-p
+                rime-predicate-prog-in-code-p
+                ))
         )
 #+end_src
 
@@ -664,6 +704,7 @@ We can use -Spc m O- to open the org-ol-tree.
 (global-pangu-spacing-mode 1)
 (setq pangu-spacing-real-insert-separtor t)
 #+end_src
+
 
 * load-path
 

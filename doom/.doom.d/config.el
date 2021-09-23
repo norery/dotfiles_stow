@@ -62,11 +62,15 @@
 
 (setq doom-font (font-spec :family "Source Code Pro" :size 14))
 
+(advice-add 'ispell-lookup-words :around
+            (lambda (orig &rest args)
+              (shut-up (apply orig args))))
+
 (setq doom-theme 'doom-one)
 
 (setq display-line-numbers-type 'relative)
 
-(setq initial-frame-alist (quote ((fullscreen . maximized))))   ;; 默认全屏
+;; (setq initial-frame-alist (quote ((fullscreen . maximized))))   ;; 默认全屏
 
 ;; 修改当前行的高亮背景色。 M-x 运行describe-char -> Face: h1-line -> Background: #0D343E 可以看到这个值。通过(customize this face) 修改，被保存在 ~/.emacs.d/.local/custom.el 文件
 '(hl-line ((t (:background "#0D343E" ))))
@@ -181,11 +185,24 @@
       :desc "open org-ol-tree" "O" #'org-ol-tree)
 
 (use-package rime
+        :init
         :custom
         (default-input-method "rime")
         (rime-librime-root "~/.doom.d/librime/dist")
-        (setq rime-show-candidate 'posframe)
         (setq rime-user-data-dir "~/Library/Rime/")
+        ;;; 具体参考 mode-line-mule-info 默认值，其中可能有其它有用信息
+        (setq mode-line-mule-info '((:eval (rime-lighter))))
+        (setq rime-show-candidate 'posframe)
+        (rime-posframe-properties
+                (list :background-color "#073642"
+                 :foreground-color "#839496"
+                 :internal-border-width 1))
+        (setq rime-cursor "˰")
+        (setq rime-disable-predicates
+              '(rime-predicate-evil-mode-p
+                rime-predicate-after-alphabet-char-p
+                rime-predicate-prog-in-code-p
+                ))
         )
 
 (require 'pangu-spacing)
