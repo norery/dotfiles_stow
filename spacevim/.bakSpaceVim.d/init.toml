@@ -37,7 +37,7 @@
 
     # My own options
     filemanager = "defx"
-    autocomplete_method = "coc"
+    # autocomplete_method = "coc"
     bootstrap_before = "myspacevim#before"
     bootstrap_after = "myspacevim#after"
 
@@ -47,10 +47,6 @@
 # auto_completion_return_key_behavior = "complete"
 # auto_completion_tab_key_behavior = "smart"
 
-[[layers]]
-name = 'shell'
-default_position = 'top'
-default_height = 30
 
 # ------------------- layers -------------------
 [[layers]]
@@ -58,11 +54,25 @@ default_height = 30
   enable = false
 
 [[layers]]
+  # 在顶部打开一个shell，自动定位当当前文件夹，最后输入exit退出。
+  name = 'shell'
+  default_position = 'top'
+  default_height = 30
+
+[[layers]]
   name = "format"
   enable = false
 
 [[layers]]
   name = "leaderf"
+
+# 启用python模块。启用 lang#python 模块后，在打开 Python 文件是，就可以使用语言专属快捷键，这些快捷键都是以 SPC l 为前缀的。
+[[layers]]
+  name = "lang#python"
+
+# Python 代码格式化，主要依赖 format 模块，同时需要安装相关的后台命令 yapf：pip install --user yapf
+# [[layers]]
+  # name = "format"
 
 [[layers]]
   name = "tools#dash"
@@ -85,3 +95,5 @@ name = "chinese"
     repo = "instant-markdown/vim-instant-markdown"
     on_ft = "markdown"
 
+# 测试
+#

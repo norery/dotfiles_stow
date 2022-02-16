@@ -99,13 +99,17 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias lsl="ls -alh"
+alias lsl="ls -alh | lolcat"
 alias ra="ranger"
 alias lg="lazygit"
 # add alias to .zshrc to run nvim with vi
 if type nvim > /dev/null 2>&1; then
   alias vi='nvim'
 fi
+
+alias cow="cowsay -f dragon-and-cow This is ☛ Tintingo ☚ Be patient 今天也要加油呀~ | lolcat"
+alias tin="figlet Tintingoo | lolcat"
+alias tnew="tmux new -s"
 
 
 # HomeBrew
@@ -136,16 +140,16 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 # 使用zsh Vi-Mode
-bindkey '^v' edit-command-line
-bindkey -v
-function zle-keymap-select {
-	if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
-		echo -ne '\e[1 q'
-	elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = '' ]] || [[ $1 = 'beam' ]]; then
-		echo -ne '\e[5 q'
-  fi
-}
-zle -N zle-keymap-select
+# bindkey '^v' edit-command-line
+# bindkey -v
+# function zle-keymap-select {
+	# if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
+		# echo -ne '\e[1 q'
+	# elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = '' ]] || [[ $1 = 'beam' ]]; then
+		# echo -ne '\e[5 q'
+  # fi
+# }
+# zle -N zle-keymap-select
 
 # Use beam shape cursor on startup.
 echo -ne '\e[5 q'
@@ -176,3 +180,11 @@ export fzf_preview_cmd='[[ $(file --mime {}) =~ binary ]] && echo {} is a binary
 
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH=/Users/vde/bin:$PATH
+
+# Emacs Path
+export PATH="/usr/local/Cellar/emacs-mac/emacs-27.2-mac-8.2/Emacs.app/Contents/MacOS:$PATH"
+
+# 解决tmux中anaconda的虚拟环境不正确的问题
+source ~/opt/anaconda3/etc/profile.d/conda.sh 
+[[ -z $TMUX ]] || conda deactivate; conda activate base

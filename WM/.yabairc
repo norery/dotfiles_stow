@@ -31,8 +31,13 @@ yabai -m config mouse_action2                resize
 yabai -m config mouse_drop_action            swap
 
 # general space settings
-yabai -m config layout                       bsp
-yabai -m config top_padding                  35
+yabai -m config layout                       bsp #默认使用平铺式布局
+# yabai -m config layout                       float #默认使用浮动式布局
+# Override default layout for space 9 only
+yabai -m config --space 9 layout float
+yabai -m config --space 7 layout float
+
+yabai -m config top_padding                  12
 yabai -m config bottom_padding               12
 yabai -m config left_padding                 12
 yabai -m config right_padding                12
@@ -49,60 +54,62 @@ yabai -m config normal_window_border_color   0x7f6123A#noborder
 yabai -m config insert_window_border_color   0xffCF515C
 
 # ====== List of rules =========================
-
 # 可以从左上角苹果符号 () 旁边的 macOS 菜单栏中检查应用程序名称。
 # workd after open a new software or restart yabai
-##### window 1 -- main
-# 1. Emacs, can not tiling
+##### space 1 -- main
 yabai -m space 1 --label main
+yabai -m rule --add label=zotero app="^Zotero$" space=main
 
-##### window 2 -- Shell
-# use ranger to manage file
+##### space 2 -- Shell
 yabai -m space 2 --label shell 
 yabai -m rule --add label=iterm app="^iTerm2$" space=shell
 
-##### window 3
-# 1. chrome -- browser
+##### space 3
 yabai -m space 3 --label surf
+# 1. chrome -- browser
 yabai -m rule --add label=chrome app="^Google Chrome$" space=surf
 # 2. Safari 
 yabai -m rule --add label=safari app="^Safari浏览器$" space=surf
 
-##### window 4 -- communication
+##### space 4 -- communication
 yabai -m space 4 --label chat
 yabai -m rule --add label=wechat app="^微信" space=chat
 yabai -m rule --add label=qq app="^QQ" space=chat
-yabai -m rule --add label=finder app="^访达" space=chat
+# yabai -m rule --add label=finder app="^访达" space=chat
 
-##### window 5 -- paper
+##### space 5 -- paper
 yabai -m space 5 --label paper
 yabai -m rule --add label=word app="^Microsoft Word" space=paper
 yabai -m rule --add label=pdf app="^PDF Expert" space=paper
 
-##### window 6 -- data
+##### space 6 -- data
 yabai -m space 6 --label data
 yabai -m rule --add label=notion app="^Notion" space=data
 yabai -m rule --add label=mweb app="^MWeb" space=data
+yabai -m rule --add label=logseq app="^Logseq" space=data
 
-##### window 7 -- Cal
+##### space 7 -- Cal
 yabai -m space 7 --label Cal
 yabai -m rule --add label=matlab app="^MATLAB" space=Cal
 
-##### window 8 -- Mess
+##### space 8 -- Mess
 yabai -m space 8 --label mess
 yabai -m rule --add label=oulu app="^欧陆字典" space=mess
 
-##### window 9 Entertainment
-yabai -m space 9 --label music
-yabai -m rule --add label=musicapp app="^音乐$" space=music
-yabai -m rule --add label=iina app="^IINA$" space=music
-yabai -m rule --add label=neteaseMusic app="^网易云音乐" space=music
+##### space 9 Entertainment
+yabai -m space 9 --label Fun
+yabai -m rule --add label=musicapp app="^音乐$" space=Fun
+yabai -m rule --add label=iina app="^IINA$" space=Fun
+yabai -m rule --add label=neteaseMusic app="^网易云音乐" space=Fun
+
+##### space 10 Entertainment
+yabai -m space 10 --label Blog
+yabai -m rule --add label=rstudio app="^RStudio$" space=Blog
 
 # floating windows are always on top (default: off)
 yabai -m config window_topmost on
 
 # window opacity (default: off)
-# example: render all unfocused windows with 90% opacity
 yabai -m config window_opacity on
 yabai -m config active_window_opacity 0.95
 yabai -m config normal_window_opacity 0.9

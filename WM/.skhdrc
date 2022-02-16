@@ -1,89 +1,28 @@
-cmd - return : open /Applications/iTerm.app
-
-# Navigation
-alt - h : yabai -m window --focus west
-alt - j : yabai -m window --focus south
-alt - k : yabai -m window --focus north
-alt - l : yabai -m window --focus east
-
-# Moving windows
-shift + alt - h : yabai -m window --warp west
-shift + alt - j : yabai -m window --warp south
-shift + alt - k : yabai -m window --warp north
-shift + alt - l : yabai -m window --warp east
-
-# 窗口顺时针旋转 90 度 alt + SPC + r
-alt - r         : yabai -m space --rotate 270
-# 窗口逆时针旋转 90 度
-# shift + alt - r : yabai -m space --rotate 90
-
-# Rotate on X and Y Axis
-shift + alt - x : yabai -m space --mirror x-axis
-shift + alt - y : yabai -m space --mirror y-axis
-
-# Resize windows
-shift+ cmd - h : \
-    yabai -m window --resize left:-20:0 ; \
-    yabai -m window --resize right:-20:0
-
-shift + cmd - j : \
-    yabai -m window --resize bottom:0:20 ; \
-    yabai -m window --resize top:0:20
-
-shift + cmd - k : 
-    yabai -m window --resize top:0:-20 ; \
-    yabai -m window --resize bottom:0:-20
-
-shift + cmd - l : \
-    yabai -m window --resize right:20:0 ; \
-    yabai -m window --resize left:20:0
-
-# Float and center window
-shift + alt - c : yabai -m window --toggle float;\
-                  yabai -m window --grid 4:4:1:1:2:2
-
-# Equalize size of windows
-ctrl + alt - 0 : yabai -m space --balance
-
-# Enable / Disable gaps in current workspace
-lctrl + alt - g : yabai -m space --toggle padding; yabai -m space --toggle gap
-
-# Set insertion point for focused container
-shift + lctrl + alt - h : yabai -m window --insert west
-shift + lctrl + alt - j : yabai -m window --insert south
-shift + lctrl + alt - k : yabai -m window --insert north
-shift + lctrl + alt - l : yabai -m window --insert east
-
-# Float / Unfloat window (更换 layout 方式) w
-shift + alt - space : yabai -m window --toggle float
-
+# ================================================================== #
+#                         Basic Definition                          #
+# ================================================================== #
+#
 # Restart Yabai
-shift + cmd + alt - r :
+ctrl + cmd + alt - r :
     /usr/bin/env osascript <<< \
         "display notification \"Restarting Yabai\" with title \"Yabai\""; \
     launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
 
-# Make window native fullscreen
-alt - f         : yabai -m window --toggle zoom-fullscreen
-shift + alt - f : yabai -m window --toggle native-fullscreen
+# toggle window border
+alt - b : yabai -m window --toggle border
 
-# toggle window split type
-alt - g : yabai -m window --toggle split
+# toggle window transparency
+ctrl + alt - p : yabai -m window --opacity 1.0
+ctrl + alt - o : yabai -m window --opacity 0.95
 
-# increase window size 竖直方向才能用 top  水平方向才能用 left
-shift + alt - d : yabai -m window --resize left:-20:0
-shift + alt - w : yabai -m window --resize top:0:-20
+# Enable / Disable gaps in current workspace
+lctrl + alt - g : yabai -m space --toggle padding; yabai -m space --toggle gap
 
-
-# decrease window size
-shift + alt - a : yabai -m window --resize left:20:0
-shift + alt - s : yabai -m window --resize top:0:20
-
-
-# fast focus desktop (切换空间焦点)
-# cmd + alt - x : yabai -m space --focus recent
-# cmd + alt - z : yabai -m space --focus prev
-# cmd + alt - c : yabai -m space --focus next
+# ================================================================== #
+#                          Space shortcuts                           #
+# ================================================================== #
+# =======================  space shortcuts ==========================
+# fast focus space/desktop
 alt - 1 : yabai -m space --focus main
 alt - 2 : yabai -m space --focus shell
 alt - 3 : yabai -m space --focus surf
@@ -92,19 +31,8 @@ alt - 5 : yabai -m space --focus paper
 alt - 6 : yabai -m space --focus data
 alt - 7 : yabai -m space --focus Cal
 alt - 8 : yabai -m space --focus mess
-alt - 9 : yabai -m space --focus music
-alt - 0 : yabai -m space --focus 10
-
-# create new space
-ctrl + alt - n : yabai -m space --create
-# delete current space
-ctrl + alt - x : yabai -m space --destroy
-
-# destroy empty spaces
-shift + cmd + alt - w : echo "destroy empty spaces";\
-                        yabai -m query --spaces \
-                        | jq 'reverse | .[] | select((.windows | length) == 0) | .index' \
-                        | xargs -I{} yabai -m space {} --destroy \;
+alt - 9 : yabai -m space --focus Fun
+alt - 0 : yabai -m space --focus Blog
 
 # send window to space
 ctrl + alt - m : yabai -m space --create && yabai -m window --space last
@@ -116,41 +44,128 @@ ctrl + alt - 5 : yabai -m window --space paper
 ctrl + alt - 6 : yabai -m window --space data
 ctrl + alt - 7 : yabai -m window --space Cal
 ctrl + alt - 8 : yabai -m window --space mess
-ctrl + alt - 9 : yabai -m window --space music
-ctrl + alt - 0 : yabai -m window --space 10
+ctrl + alt - 9 : yabai -m window --space Fun
+ctrl + alt - 0 : yabai -m window --space Blog
 
-# Move focus container to workspace
-shift + cmd - m : yabai -m window --space last && yabai -m space --focus last
-shift + cmd - b : yabai -m window --space prev && yabai -m space --focus prev
-shift + cmd - n : yabai -m window --space next && yabai -m space --focus next
-shift + cmd - 1 : yabai -m window --space 1 && yabai -m space --focus 1
-shift + cmd - 2 : yabai -m window --space 2 && yabai -m space --focus 2
-shift + cmd - 3 : yabai -m window --space 3 && yabai -m space --focus 3
-shift + cmd - 4 : yabai -m window --space 4 && yabai -m space --focus 4
-shift + cmd - 5 : yabai -m window --space 5 && yabai -m space --focus 5
-shift + cmd - 6 : yabai -m window --space 6 && yabai -m space --focus 6
+# =======================  space create/destory ==========================
+# create new space
+ctrl + alt - n : yabai -m space --create
+# delete current space
+ctrl + alt - x : yabai -m space --destroy
+# destroy empty spaces
+shift + cmd + alt - w : echo "destroy empty spaces";\
+                        yabai -m query --spaces \
+                        | jq 'reverse | .[] | select((.windows | length) == 0) | .index' \
+                        | xargs -I{} yabai -m space {} --destroy \;
 
 
-# 堆栈到下一个窗口，目前layout不止一个window时，使用wrap可以unstack
-alt - t : yabai -m window --stack next
-# 如何全部unstack？
-# 切换到下一个堆栈
-cmd - j : yabai -m window --focus stack.next
-# 切换到上一个堆栈
-cmd - k : yabai -m window --focus stack.prev
-# swap stacked window
-# ctrl + shift - j : yabai -m window --swap stack.next 
-# ctrl + shift - k : yabai -m window --swap stack.prev || yabai -m window --swap stack.last
+# ================================================================== #
+#                          Window shortcuts                           #
+# ================================================================== #
+# 窗口focus的快捷键前缀：ctrl + alt
+# 窗口move的快捷键前缀：shift + alt
+# 窗口resize的快捷键前缀：shift + cmd
+# =======================  window focus ==========================
+# 只在平铺的窗口上生效，浮动的窗口之间移动实现起来比较麻烦
+# focus window in direction of focused window (options: north, east, south, west)
+ctrl + alt - l : yabai -m window --focus east
+ctrl + alt - h : yabai -m window --focus west
+ctrl + alt - j : yabai -m window --focus south
+ctrl + alt - k : yabai -m window --focus north
+#
+# focus window that was previously focused
+ctrl + alt - b : yabai -m window --focus recent
 
-# forward
+# =======================  window layout ==========================
+# 将窗口移动到上/下/左/右
+shift + alt - h : yabai -m window --warp west
+# shift + alt - j : yabai -m window --warp south
+# shift + alt - k : yabai -m window --warp north
+shift + alt - l : yabai -m window --warp east
 
-# toggle window border
-alt - b : yabai -m window --toggle border
+# toggle window split type-水平排列转为垂直排列
+shift + alt - g : yabai -m window --toggle split
 
-# toggle window transparency
-# explicitly set the opacity to 100%
-ctrl + alt - p : yabai -m window --opacity 1.0
-ctrl + alt - l : yabai -m window --opacity 0.95
+# 窗口顺时针旋转 90 度,一开始垂直的半边屏幕总是一个总体,用的少
+shift + alt - r : yabai -m space --rotate 270
+# 窗口逆时针旋转 90 度
+# shift + alt - r : yabai -m space --rotate 90
+
+# Rotate on X and Y Axis
+# shift + alt - x : yabai -m space --mirror x-axis
+# shift + alt - y : yabai -m space --mirror y-axis
+
+# Float and center window-bsp/float
+# The grid format is <rows>:<cols>:<start-x>:<start-y>:<width>:<height>
+# 中心浮动窗口
+shift + alt - s : yabai -m window --toggle float;\
+                  yabai -m window --grid 6:6:1:1:4:4
+# 中心更小的浮动窗口
+shift + alt - c : yabai -m window --toggle float;\
+                  yabai -m window --grid 4:4:1:1:2:2
+# 左半屏浮动窗口
+shift + alt - j : yabai -m window --toggle float;\
+                  yabai -m window --grid 6:6:0:0:3:6
+# 右半屏浮动窗口
+shift + alt - k : yabai -m window --toggle float;\
+                  yabai -m window --grid 6:6:3:0:3:6
+# 左上浮动窗口
+shift + alt - u : yabai -m window --toggle float;\
+                  yabai -m window --grid 6:6:0:0:3:3
+# 右上浮动窗口
+shift + alt - o : yabai -m window --toggle float;\
+                  yabai -m window --grid 6:6:3:0:3:3
+# 左下浮动窗口
+shift + alt - n : yabai -m window --toggle float;\
+                  yabai -m window --grid 6:6:0:3:3:3
+# 右下浮动窗口
+shift + alt - m : yabai -m window --toggle float;\
+                  yabai -m window --grid 6:6:3:3:3:3
+# 更小的左上浮动窗口
+shift + alt - y : yabai -m window --toggle float;\
+                  yabai -m window --grid 6:6:0:0:2:2
+# 上中浮动窗口
+shift + alt - i : yabai -m window --toggle float;\
+                  yabai -m window --grid 6:6:2:0:2:6
+# 更小的右上浮动窗口
+shift + alt - p : yabai -m window --toggle float;\
+                  yabai -m window --grid 6:6:4:0:2:2
+
+# 浮动窗口全屏
+shift + alt - f : yabai -m window --toggle float;\
+                  yabai -m window --grid 4:4:0:0:4:4
+# =======================  window resize ==========================
+# Make window native fullscreen-float
+alt - f : yabai -m window --toggle zoom-fullscreen
+
+# Resize windows
+shift+ cmd - h : \
+    yabai -m window --resize left:-20:0 ; \
+    yabai -m window --resize right:20:0
+
+shift + cmd - k : \
+    yabai -m window --resize bottom:0:20 ; \
+    yabai -m window --resize top:0:-20
+
+shift + cmd - j : 
+    yabai -m window --resize top:0:20 ; \
+    yabai -m window --resize bottom:0:-20
+
+shift + cmd - l : \
+    yabai -m window --resize right:-20:0 ; \
+    yabai -m window --resize left:20:0
+
+# Equalize size of windows
+shift + cmd - 0 : yabai -m space --balance
+
+# Set insertion point for focused container
+# shift + lctrl + alt - h : yabai -m window --insert west
+# shift + lctrl + alt - j : yabai -m window --insert south
+# shift + lctrl + alt - k : yabai -m window --insert north
+# shift + lctrl + alt - l : yabai -m window --insert east
+
+
+
 
 # 临时性的App 也就是manage=off不受到yabai平铺式的限制，之前怎么弹出来就怎么弹出来
 #otherApp='^(IINA|访达|Calendar|日历|System Preferences|系统偏好设置|Mail|微信|WeChatc|QQ|Visual Studio Code)$'
@@ -158,3 +173,7 @@ ctrl + alt - l : yabai -m window --opacity 0.95
 # yabai -m rule --add app="${otherApp}" manage=off
 
 
+# ================================================================== #
+#                            Notice                                  #
+# ================================================================== #
+# 1. 如果使用 cmd+m 最小化窗口，则会使剩下的窗口无法捕捉到焦点，而使用 cmd+h 就可以捕捉到。

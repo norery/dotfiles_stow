@@ -8,15 +8,16 @@ func! myspacevim#before() abort
     set autowrite
     set autoread
 
-    "noremap 用于建立键盘映射
-    noremap J 5j
-    noremap K 5k
+    " 让vim在命令模式和写入模式时的光标不一样：
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 
     " 每次按下R就可以刷新令文件生效了
     map S :w!<CR>
-    map s :<nop>
-    map Q :q<CR>
-    map R :source $MYVIMRC<CR>
+    " map s :<nop>
+    " map Q :q<CR>
+    " map R :source $MYVIMRC<CR>
 
     "==============================  插件配置  ==============================
     "------------------------------  vimtex config  ------------------------------
@@ -30,6 +31,7 @@ func! myspacevim#before() abort
     " ===
     " === skim pdf config
     " === 这样配置后，我们就可以通过 vimtex 默认的 \lv 快捷键（在按住 \ 的时候，连续点击 l 和 v）来正向同步当前 Neovim 光标位置到 PDF 预览位置，也可以通过「Ctrl + 点击 PDF 预览相应位置」来反向同步 Neovim 光标位置了
+    "
     let g:vimtex_view_general_viewer
     \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
     let g:vimtex_view_general_options = '-r @line @pdf @tex'
@@ -58,6 +60,7 @@ func! myspacevim#before() abort
     " 使用命令:VimtexTocToggle 即可唤出vimtex自动生成的TOC
     let g:vimtex_toc_config = {
     \ 'name' : 'TOC',
+
     \ 'layers' : ['content', 'todo', 'include'],
     \ 'split_width' : 25,
     \ 'todo_sorted' : 0,
@@ -70,6 +73,8 @@ endf
 
 " mysapcevim#after将在 VimEnter autocmd 之后执行
 func! myspacevim#after() abort
+  "noremap 用于建立键盘映射
   noremap J 5j
+  noremap K 5k
   echo "after"
 endf
