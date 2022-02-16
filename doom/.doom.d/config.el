@@ -66,9 +66,11 @@
             (lambda (orig &rest args)
               (shut-up (apply orig args))))
 
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-solarized-light)
 
 (setq display-line-numbers-type 'relative)
+
+(setq ein:output-area-inlined-images t)
 
 ;; (setq initial-frame-alist (quote ((fullscreen . maximized))))   ;; 默认全屏
 
@@ -131,13 +133,29 @@
 (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
 ;; use =command k=  to move five lines up
-;; TODO: only work in normal mode?
-(global-set-key (kbd "s-k")
-    (lambda () (interactive) (evil-previous-line 5)))
+;; use =command j= to move five lines down
+(map!
+      :desc "move next 5 line"       :nvi          "C-j"    #'(lambda () (interactive) (forward-line 5))
+      :desc "move previous 5 line"   :nvi          "C-k"    #'(lambda () (interactive) (forward-line -5)))
 
-;; use =command j= to move five lines down 
-(global-set-key (kbd "s-j")
-    (lambda () (interactive) (evil-next-line 5)))
+;;;;;;;; Ein KeyBinding
+(map! :map ein:notebook-mode-map
+      :leader
+      :desc "ein:insert above"         :n    "ea"        #'ein:worksheet-insert-cell-above-km
+      :desc "ein:insert below"         :n    "eb"        #'ein:worksheet-insert-cell-next-km
+      :desc "ein:Run all"              :n    "ell"       #'ein:worksheet-execute-all-cells
+      :desc "ein:To next cell"         :n    "ej"        #'ein:worksheet-goto-next-input-km
+      :desc "ein:To prev cell"         :n    "ek"        #'ein:worksheet-goto-prev-input-km
+      :desc "ein:Change cell type"     :n    "eu"        #'ein:worksheet-change-cell-type-km
+      :desc "ein:Restart session"      :n    "err"       #'ein:notebook-restart-session-command-km
+      :desc "ein:kill cell"            :n    "ed"        #'ein:worksheet-kill-cell-km
+      :desc "ein:interrupt kernel"     :n    "ez"        #'ein:notebook-kernel-interrupt-command-km
+      :desc "ein:toggle output"        :n    "et"        #'ein:worksheet-toggle-output-km
+      :desc "ein:show output"          :n    "ev"        #'ein:worksheet-set-output-visibility-all-km
+      :desc "ein:login"                :n    "el"        #'ein:login
+      :desc "ein:stop"                 :n    "ep"        #'ein:stop
+      :desc "ein:open notebook"        :n    "eo"        #'ein:notebook-open-km
+      )
 
 (setq org-directory "~/Documents/OrgType/")
 
@@ -184,32 +202,17 @@
       :localleader
       :desc "open org-ol-tree" "O" #'org-ol-tree)
 
-(use-package rime
-        :init
-        :custom
-        (default-input-method "rime")
-        (rime-librime-root "~/.doom.d/librime/dist")
-        (setq rime-user-data-dir "~/Library/Rime/")
-        ;;; 具体参考 mode-line-mule-info 默认值，其中可能有其它有用信息
-        (setq mode-line-mule-info '((:eval (rime-lighter))))
-        (setq rime-show-candidate 'posframe)
-        (rime-posframe-properties
-                (list :background-color "#073642"
-                 :foreground-color "#839496"
-                 :internal-border-width 1))
-        (setq rime-cursor "˰")
-        (setq rime-disable-predicates
-              '(rime-predicate-evil-mode-p
-                rime-predicate-after-alphabet-char-p
-                rime-predicate-prog-in-code-p
-                ))
-        )
-
 (require 'pangu-spacing)
 (global-pangu-spacing-mode 1)
 (setq pangu-spacing-real-insert-separtor t)
 
-;; 递归遍历加载路径
+(use-package conda
+  :ensure t
+  :init
+  (setq conda-anaconda-home (expand-file-name "~/opt/anaconda3"))
+  (setq conda-env-home-directory (expand-file-name "~/opt/anaconda3")))
+
+;; 递归遍历加载路径 test
   (defun add-subdirs-to-load-path(dir)
     "Recursive add directories to `load-path`."
     (let ((default-directory (file-name-as-directory dir)))

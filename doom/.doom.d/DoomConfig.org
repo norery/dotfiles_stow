@@ -37,6 +37,8 @@ This is my Doom Emacs configuration. From this org file, all the necessary Doom 
   - [[#简介][简介]]
   - [[#安装和使用][安装和使用]]
   - [[#pangu-spacing][pangu-spacing]]
+- [[#python][Python]]
+  - [[#emacs-ipython-notebook][Emacs Ipython Notebook]]
 - [[#load-path][load-path]]
 
 * References
@@ -280,7 +282,7 @@ This code is written to the =init.el= to select which modules to load. Written h
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
-       ;;(format +onsave)  ; automated prettiness
+       (format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
        ;;multiple-cursors  ; editing in many places at once
@@ -314,7 +316,7 @@ This code is written to the =init.el= to select which modules to load. Written h
        ;;direnv
        ;;docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces
-       ;;ein               ; tame Jupyter notebooks with emacs
+       ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
        ;;gist              ; interacting with github gists
        lookup              ; navigate your code and its documentation
@@ -377,7 +379,10 @@ This code is written to the =init.el= to select which modules to load. Written h
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
-       ;;python            ; beautiful is better than ugly
+       (python
+        +lsp
+        +conda
+        +pyright)          ;beautiful is better than ugly
        ;;qt                ; the 'cutest' gui framework ever
        ;;racket            ; a DSL for DSLs
        ;;raku              ; the artist formerly known as perl6
@@ -442,9 +447,11 @@ make "starting "look" progress" disappear
 *** Basic UI settings
 
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-solarized-light)
 
 (setq display-line-numbers-type 'relative)
+
+(setq ein:output-area-inlined-images t)
 
 ;; (setq initial-frame-alist (quote ((fullscreen . maximized))))   ;; 默认全屏
 
@@ -544,18 +551,31 @@ Install an evil tutorial package and use =M-x= and =evil-tutor-start= to open it
 (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
 ;; use =command k=  to move five lines up
-;; TODO: only work in normal mode?
-(global-set-key (kbd "s-k")
-    (lambda () (interactive) (evil-previous-line 5)))
+;; use =command j= to move five lines down
+(map!
+      :desc "move next 5 line"       :nvi          "C-j"    #'(lambda () (interactive) (forward-line 5))
+      :desc "move previous 5 line"   :nvi          "C-k"    #'(lambda () (interactive) (forward-line -5)))
 
-;; use =command j= to move five lines down 
-(global-set-key (kbd "s-j")
-    (lambda () (interactive) (evil-next-line 5)))
+;;;;;;;; Ein KeyBinding
+(map! :map ein:notebook-mode-map
+      :leader
+      :desc "ein:insert above"         :n    "ea"        #'ein:worksheet-insert-cell-above-km
+      :desc "ein:insert below"         :n    "eb"        #'ein:worksheet-insert-cell-next-km
+      :desc "ein:Run all"              :n    "ell"       #'ein:worksheet-execute-all-cells
+      :desc "ein:To next cell"         :n    "ej"        #'ein:worksheet-goto-next-input-km
+      :desc "ein:To prev cell"         :n    "ek"        #'ein:worksheet-goto-prev-input-km
+      :desc "ein:Change cell type"     :n    "eu"        #'ein:worksheet-change-cell-type-km
+      :desc "ein:Restart session"      :n    "err"       #'ein:notebook-restart-session-command-km
+      :desc "ein:kill cell"            :n    "ed"        #'ein:worksheet-kill-cell-km
+      :desc "ein:interrupt kernel"     :n    "ez"        #'ein:notebook-kernel-interrupt-command-km
+      :desc "ein:toggle output"        :n    "et"        #'ein:worksheet-toggle-output-km
+      :desc "ein:show output"          :n    "ev"        #'ein:worksheet-set-output-visibility-all-km
+      :desc "ein:login"                :n    "el"        #'ein:login
+      :desc "ein:stop"                 :n    "ep"        #'ein:stop
+      :desc "ein:open notebook"        :n    "eo"        #'ein:notebook-open-km
+      )
 
  #+end_src
-
- #+RESULTS:
- | lambda | nil | (interactive) | (evil-previous-line 5) |
 
  Now, The describability of =SPC bk= is not update in Which-Key, How to update it?
 
@@ -654,7 +674,7 @@ We can use -Spc m O- to open the org-ol-tree.
         :init
         :custom
         (default-input-method "rime")
-        (rime-librime-root "~/.doom.d/librime/di* pyim-basedict README                         :README:doc:
+        (rime-librime-root "~/.emacs.d/librime/dist") )
 
 ** 简介
 pyim-basedict 是 pyim 输入法的默认词库，词库数据来源为 libpinyin 项目。
@@ -705,11 +725,26 @@ st")
 (setq pangu-spacing-real-insert-separtor t)
 #+end_src
 
+* Python
+#+begin_src emacs-lisp
+(use-package conda
+  :ensure t
+  :init
+  (setq conda-anaconda-home (expand-file-name "~/opt/anaconda3"))
+  (setq conda-env-home-directory (expand-file-name "~/opt/anaconda3")))
+#+end_src
+
+** Emacs Ipython Notebook
+# #+begin_src emacs-lisp :tangle packages.el
+# (package! ein)
+# #+end_src
+
+
 
 * load-path
 
 #+begin_src emacs-lisp
-;; 递归遍历加载路径
+;; 递归遍历加载路径 test
   (defun add-subdirs-to-load-path(dir)
     "Recursive add directories to `load-path`."
     (let ((default-directory (file-name-as-directory dir)))
@@ -731,3 +766,5 @@ st")
 ;; 所有配置自带的模块
 (require 'init-config)
 #+end_src
+
++ Test
